@@ -13,7 +13,7 @@ import pickle as pk
 def initialize():
     """"""
     global firstLetter, firstTwoLetter, quadLetter, twoLastLetter
-    
+
     with open('index', 'rb') as index:
         data = pk.load(index)
     firstLetter = data['firstLetter'].items()
@@ -23,28 +23,28 @@ def initialize():
 
 def generate_word(length=5):
     """
-    
+
     """
     w = ""
     # first letter
-    while w == "":
-        r1 = r.random()
-        for k, v in firstTwoLetter:
-            if r1 <= v[1] and r1 >= v[0]:
-                w += k
+    r1 = r.random()
+    for k, v in firstTwoLetter:
+        if r1 <= v[1] and r1 >= v[0]:
+            w += k
     # 3rd letter
-    pos = [i[-1] for i in quadLetter.keys() if i.startswith(w)]
-    if pos: #i.e not empty
-        w += r.choice(pos)
-    else:
-        return
+    if length != 3:
+        pos = [i[-1] for i in quadLetter.keys() if i.startswith(w)]
+        if pos: #i.e not empty
+            w += r.choice(pos)
+        else:
+            return None
     # middle
-    for i in range(length - 3):
+    for i in range(length - 4):
         prevLetter = w[-3:]
         try:
             choices = quadLetter[prevLetter]
-        except:
-            return
+        except KeyError:
+            return None
         r2 = r.random()
         for k, v in choices.items():
             if r2 <= v[1] and r2 >= v[0]:
@@ -52,12 +52,12 @@ def generate_word(length=5):
     # two last letters
     try:
         lasts = twoLastLetter[w[-2:]]
-    except:
-        return
+    except KeyError:
+        return None
     r3 = r.random()
     for k, v in lasts.items():
         if r3 <= v[1] and r3 >= v[0]:
-            w += k
+            w += k[0] if length==3 else k
     return w
 
 def filtrated_generator(length=5, words=10):
@@ -72,16 +72,10 @@ def filtrated_generator(length=5, words=10):
             words += 1
             continue
         res.append(w)
-        """ never happens
-        # 4+ vowels or consonants joined
-        if re.search(r'[aeiouy]{4}$|[zrtpqsdfghjklmwxcvbn]{4}$', w) is not None:
-            words += 1
-            print(1)
-            trash.append(res.pop())"""
     return res
 
 
 if __name__ == '__main__':
     initialize()
-    for i in filtrated_generator(8, 20):
+    for i in filtrated_generator(5, 20):
         print(i)

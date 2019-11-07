@@ -77,7 +77,6 @@ def letter_quadruples(words):
         del quadriples[i][j]
     
     # the letters are on a line from 0 to 1 and their length are the proba
-    # the higher the proba, the wider the range
     res3 = dict()
     for i, j in quadriples.items():
         res2 = dict()
@@ -130,7 +129,7 @@ def two_last_letter(words):
 
 if __name__ == '__main__':
     Liste = []
-    with open("lexique.txt", 'r', encoding='latin1') as lexique:
+    with open("liste_francais.txt", 'r', encoding='latin1') as lexique:
         for l in lexique.readlines():
             l = unidecode.unidecode(l.strip('\n'))
             if re.search(r'[^a-z]', l) is not None:

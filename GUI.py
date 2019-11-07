@@ -20,7 +20,6 @@ class MyApp():
         self.gui()
 
     def gui(self):
-        # Add first/last letter
         # length of the words
         self.lengthLab = tk.Label(self.master, text="Length (2 to 20)")
         self.userLength = tk.StringVar()
@@ -52,6 +51,7 @@ class MyApp():
             number = int(self.userNumber.get())
         except ValueError:
             number = 10
+        length = max(3, min(20, length))
         return self.display(w.filtrated_generator(length, number))
 
     def display(self, words):
@@ -59,7 +59,7 @@ class MyApp():
         self.resultBox.delete(0, 'end')
         for w in words:
             self.resultBox.insert(0, w)
-        
+
 
 
 if __name__ == '__main__':
