@@ -129,7 +129,7 @@ def two_last_letter(words):
 
 if __name__ == '__main__':
     Liste = []
-    with open("liste_francais.txt", 'r', encoding='latin1') as lexique:
+    with open("lexique.txt", 'r', encoding='latin1') as lexique:
         for l in lexique.readlines():
             l = unidecode.unidecode(l.strip('\n'))
             if re.search(r'[^a-z]', l) is not None:
